@@ -9,22 +9,28 @@ public class HospitalLocation : MonoBehaviour, LocationSubject
     
     private CircleCollider2D checkInCollider;
     private CircleCollider2D checkUpCollider;
+    private CircleCollider2D hospitalLocCol;
     private bool checkInTouched;
     private bool checkUpTouched;
+    private bool hospitalLocTouched;
     
     GameObject player;
     PlayerStatus playerStats;
+    LocationManager locManager;
     // Start is called before the first frame update
     void Start()
     {
         this.checkInCollider = this.checkInChoice.GetComponent<CircleCollider2D>();
         this.checkUpCollider = this.checkUpChoice.GetComponent<CircleCollider2D>();
+        this.hospitalLocCol = this.GetComponent<CircleCollider2D>();
+
         this.checkInTouched = false;
         this.checkUpTouched = false;
-
+        this.hospitalLocTouched = false;
         
         this.player = GameObject.Find("Player");
         this.playerStats = this.player.GetComponent<PlayerStatus>();
+        this.locManager = this.player.GetComponent<LocationManager>();
     }
 
     // Update is called once per frame
@@ -39,24 +45,35 @@ public class HospitalLocation : MonoBehaviour, LocationSubject
             Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position); 
             if(touch.phase == TouchPhase.Began){ 
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
-                if(this.checkInCollider == touchedCollider){
-                    this.checkInTouched = true;
-                    Debug.Log("check in icon touched");
-                }                
-                else if(this.checkUpCollider == touchedCollider){
-                    this.checkUpTouched = true;
-                    Debug.Log("check up icon touched");
+                if(this.hospitalLocCol == touchedCollider){
+                    this.hospitalLocTouched = true;
+                }
+                if(this.locManager.getCurrLocation() == "HOSPITAL"){
+                    if(this.checkInCollider == touchedCollider){
+                        this.checkInTouched = true;
+                        Debug.Log("check in icon touched");
+                    }                
+                    else if(this.checkUpCollider == touchedCollider){
+                        this.checkUpTouched = true;
+                        Debug.Log("check up icon touched");
+                    }
                 }
             }
 
             if(touch.phase == TouchPhase.Ended){
-                if(this.checkUpTouched){
-                    this.handleCheckUp();
-                    this.checkUpTouched = false;
+                if(this.hospitalLocTouched){
+                    this.locManager.switchLocation(3);
+                    this.hospitalLocTouched = false;
                 }
-                if(this.checkInTouched){
-                    this.handleCheckIn();
-                    this.checkInTouched = false;
+                if(this.locManager.getCurrLocation() == "HOSPITAL"){
+                    if(this.checkUpTouched){
+                        this.handleCheckUp();
+                        this.checkUpTouched = false;
+                    }
+                    if(this.checkInTouched){
+                        this.handleCheckIn();
+                        this.checkInTouched = false;
+                    }
                 }
             }
         }

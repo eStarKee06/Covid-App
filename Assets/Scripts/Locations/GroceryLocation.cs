@@ -11,26 +11,32 @@ public class GroceryLocation : MonoBehaviour, LocationSubject
     private Collider2D foodChoiceCol;
     private Collider2D soapChoiceCol;
     private Collider2D maskChoiceCol;
+    private Collider2D groceryLocCol;
 
     private bool foodChoiceTouched;
     private bool soapChoiceTouched;
     private bool maskChoiceTouched;
+    private bool groceryLocTouched;
 
     GameObject player;
     PlayerStatus playerStats;
+    LocationManager locManager;
     // Start is called before the first frame update
     void Start()
     {
         this.foodChoiceCol = this.foodChoice.GetComponent<Collider2D>();
         this.soapChoiceCol = this.soapChoice.GetComponent<Collider2D>();
         this.maskChoiceCol = this.maskChoice.GetComponent<Collider2D>();
-    
+        this.groceryLocCol = this.GetComponent<Collider2D>();
+
         this.foodChoiceTouched = false;
         this.soapChoiceTouched = false;
         this.maskChoiceTouched = false;
+        this.groceryLocTouched = false;
     
         this.player = GameObject.Find("Player");
         this.playerStats = this.player.GetComponent<PlayerStatus>();
+        this.locManager = this.player.GetComponent<LocationManager>();
     }
 
     // Update is called once per frame
@@ -45,32 +51,44 @@ public class GroceryLocation : MonoBehaviour, LocationSubject
             Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position); 
             if(touch.phase == TouchPhase.Began){ 
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
-                if(this.foodChoiceCol == touchedCollider){
-                    this.foodChoiceTouched = true;
-                    Debug.Log("buy food icon touched");
-                }                
-                else if(this.soapChoiceCol == touchedCollider){
-                    this.soapChoiceTouched = true;
-                    Debug.Log("buy food icon touched");
-                }              
-                else if(this.maskChoiceCol == touchedCollider){
-                    this.maskChoiceTouched = true;
-                    Debug.Log("buy mask icon touched");
+                if(this.groceryLocCol == touchedCollider){
+                    this.groceryLocTouched = true;
+                }
+
+                if(this.locManager.getCurrLocation() == "GROCERY"){
+                    if(this.foodChoiceCol == touchedCollider){
+                        this.foodChoiceTouched = true;
+                        Debug.Log("buy food icon touched");
+                    }                
+                    else if(this.soapChoiceCol == touchedCollider){
+                        this.soapChoiceTouched = true;
+                        Debug.Log("buy food icon touched");
+                    }              
+                    else if(this.maskChoiceCol == touchedCollider){
+                        this.maskChoiceTouched = true;
+                        Debug.Log("buy mask icon touched");
+                    }
                 }
             }
 
             if(touch.phase == TouchPhase.Ended){
-                if(this.foodChoiceTouched){
-                    this.handleBuyFood();
-                    this.foodChoiceTouched = false;
+                if(this.groceryLocTouched){
+                    this.locManager.switchLocation(1);
+                    this.groceryLocTouched = false;
                 }
-                else if(this.soapChoiceTouched){
-                    this.handleBuySoap();
-                    this.soapChoiceTouched = false;
-                }
-                else if(this.maskChoiceTouched){
-                    this.handleBuyMask();
-                    this.maskChoiceTouched = false;
+                if(this.locManager.getCurrLocation() == "GROCERY"){
+                    if(this.foodChoiceTouched){
+                        this.handleBuyFood();
+                        this.foodChoiceTouched = false;
+                    }
+                    else if(this.soapChoiceTouched){
+                        this.handleBuySoap();
+                        this.soapChoiceTouched = false;
+                    }
+                    else if(this.maskChoiceTouched){
+                        this.handleBuyMask();
+                        this.maskChoiceTouched = false;
+                    }
                 }
             }
         }
