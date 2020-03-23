@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+
 public class PlayerStatus : MonoBehaviour, InventoryObserver, 
 TimeObserver, PlayerSubject, LocationObserver{
 
@@ -33,9 +35,15 @@ TimeObserver, PlayerSubject, LocationObserver{
     public Text immuneSysText;
 
     DayCounter dayCounter;
+
+    double getVirusChance;
+
+    bool infected;
     // Start is called before the first frame update
     void Start()
     { //logic to load game later
+        this.infected = false;
+
         this.initialStates();
 
         //Debug.Log(background);
@@ -52,6 +60,7 @@ TimeObserver, PlayerSubject, LocationObserver{
     void Update()
     {
         this.updateTestText();
+        this.watchHealth();
     }
 
     void updatePlayerHealth(double newHunger, double newSleep, double newImmuneSys){
@@ -74,6 +83,29 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.foodManager.updateFromPlayer(tag);
         this.hygieneManager.updateFromPlayer(tag);
         this.preventiveManager.updateFromPlayer(tag);
+    }
+
+    public void watchHealth(){
+        if(this.health >= 0.95){
+            this.getVirusChance = 0.10;
+        }
+        else if (this.health >= 0.65){
+            this.getVirusChance = 0.40;
+        }
+        else{
+            this.getVirusChance = 0.80;
+        }
+    }
+
+    public void encounteredVirus(){
+        double randomNum = (new System.Random()).Next(0,101);
+        Debug.Log("immunity to disease: " + this.getVirusChance);
+        Debug.Log("random num: " + randomNum);
+        if (randomNum <= (this.getVirusChance * 100)){
+            this.infected = true;
+            //set this to false if we check into the hospital 
+            Debug.Log("PLAYER IS INFECTED BY VIRUS!!!!!");
+        }
     }
     //listeners------------------------------------------------------------------------
     public void update(string statKey, double value){
@@ -123,7 +155,8 @@ TimeObserver, PlayerSubject, LocationObserver{
                     this.money = this.money + 200;
                     break;
             case "HOME SLEEP":
-                    this.sleep = ((this.sleep + 0.25) > 1.0) ? 1.25 : (this.sleep + 0.25);
+                    this.sleep = ((this.sleep + 0.50) > 1.0) ? 1.25 : (this.sleep + 0.50);
+                    Debug.Log("sleep icon from home: " + this.sleep);
                     this.notifyObservers(locName);
                     break;
             case "HOME SHOWER":

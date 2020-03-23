@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System; 
 public class EncounterChance : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    double[] ENCOUNTER_CHANCES = {0.30, 0.45, 0.60, 0.75}; 
+    
+    public double randomPickEncounter(){
+        System.Random random = new System.Random();
+        int randomIdx  = random.Next(0, ENCOUNTER_CHANCES.Length);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return ENCOUNTER_CHANCES[randomIdx];
+        //return 1.0;
     }
 }
