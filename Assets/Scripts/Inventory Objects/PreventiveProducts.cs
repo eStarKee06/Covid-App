@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class PreventiveProducts : MonoBehaviour, PlayerObserver
 {
     List<Preventive> preventiveProducts = new List<Preventive>();
     GameObject player;
+
+    
+    public TMPro.TextMeshProUGUI countText; //implement later
+    
     void Start()
     {
         this.player = GameObject.Find("Player");

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
 {
-    public Text dayCounterText;
-    public Text timerInDayText;
+    //public Text dayCounterText;
+    //public Text timerInDayText;
+
+    public TMPro.TextMeshProUGUI dayCounterText;
+    public TMPro.TextMeshProUGUI timerInDayText;
 
     private float startTime;
     private int dayCounter;
@@ -28,7 +32,7 @@ public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
     void Update()
     {
         this.updateTime();
-        if(this.timerInDayText.text == "Time: 0:10"){
+        if(this.timerInDayText.text == "0:10"){
             /*this.notifyObservers();
             this.updateDateCounter(1);
             this.resetInitTime();*/
@@ -46,7 +50,8 @@ public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
         string seconds = (currTime % 60).ToString("f0");
         if(seconds.Length == 1) seconds = "0" + seconds;
 
-        string timeString= "Time: " + minutes + ":" + seconds;
+        //string timeString= "Time: " + minutes + ":" + seconds;
+        string timeString = minutes + ":" + seconds;
 
         this.timerInDayText.text = timeString;
     }

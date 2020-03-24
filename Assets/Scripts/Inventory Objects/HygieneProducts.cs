@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
 {
     List<Hygiene> hygieneProducts = new List<Hygiene>();
@@ -10,6 +11,8 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
 
     Collider2D hygieneObj;
     
+    public TMPro.TextMeshProUGUI countText;
+
     bool touchHygieneIcon;
     void Start()
     {
@@ -17,6 +20,7 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
         this.playerStats = this.player.GetComponent<PlayerStatus>();
         this.hygieneObj = GetComponent<Collider2D>();
         this.touchHygieneIcon = false;
+        this.countText.text = this.hygieneProducts.Count + "x";
         this.testInitial();    
     }
 
@@ -28,12 +32,14 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
 
     void addHygieneProduct(){
         this.hygieneProducts.Add(new Hygiene());
+        this.countText.text = this.hygieneProducts.Count + "x";
     }
 
     double useHygieneProduct(){
         //check later if empty
         double returnedVal = this.hygieneProducts[this.hygieneProducts.Count - 1].IMMUNE_IMPACT;
         this.hygieneProducts.RemoveAt(this.hygieneProducts.Count - 1);
+        this.countText.text = this.hygieneProducts.Count + "x";
         return returnedVal;
     }
 

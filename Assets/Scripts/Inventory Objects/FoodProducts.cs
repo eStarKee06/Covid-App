@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
 {
     List<Food> foodProducts = new List<Food>();
@@ -9,6 +10,8 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
     PlayerStatus playerStats;
 
     Collider2D foodObj;
+
+    public TMPro.TextMeshProUGUI countText;
     
     bool touchFoodIcon = false;
 
@@ -18,6 +21,8 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
         this.playerStats = this.player.GetComponent<PlayerStatus>();
         this.foodObj = GetComponent<Collider2D>();
         this.touchFoodIcon = false;
+        
+        this.countText.text = this.foodProducts.Count + "x";
         //-----------------------
         this.testInitial();
     }
@@ -30,12 +35,16 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
 
     void addFoodProduct(){
         this.foodProducts.Add(new Food());
+        
+        this.countText.text = this.foodProducts.Count + "x";
     }
 
     double useFoodProduct(){
         //check later if empty
         double returnedVal = this.foodProducts[this.foodProducts.Count - 1].HUNGER_IMPACT;
         this.foodProducts.RemoveAt(this.foodProducts.Count - 1);
+        
+        this.countText.text = this.foodProducts.Count + "x";
         return returnedVal;
 
     }

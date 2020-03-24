@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
+using UnityEngine.UI;
+using TMPro;
 public class PlayerStatus : MonoBehaviour, InventoryObserver, 
 TimeObserver, PlayerSubject, LocationObserver{
 
@@ -39,6 +40,8 @@ TimeObserver, PlayerSubject, LocationObserver{
     double getVirusChance;
 
     bool infected;
+
+    public TMPro.TextMeshProUGUI moneyText;
     // Start is called before the first frame update
     void Start()
     { //logic to load game later
@@ -61,6 +64,7 @@ TimeObserver, PlayerSubject, LocationObserver{
     {
         this.updateTestText();
         this.watchHealth();
+        this.updateMoneyText();
     }
 
     void updatePlayerHealth(double newHunger, double newSleep, double newImmuneSys){
@@ -76,6 +80,13 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.updatePlayerHealth(1.0, 1.0, 1.0);
         //this.money = 3000.00;
         this.money = 8000.00;
+    }
+
+    void updateMoneyText(){
+        Debug.Log("asdfasdf");
+        if(("$" + this.money) != this.moneyText.text){
+            this.moneyText.text = "$" + this.money;
+        }
     }
 
     public void notifyObservers(string tag){
