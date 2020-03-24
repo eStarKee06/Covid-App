@@ -5,13 +5,13 @@ using UnityEngine;
 public class HomeLocation : MonoBehaviour, LocationSubject
 {
     public GameObject sleep;
-    public GameObject shower;
+    //public GameObject shower;
     
     private CircleCollider2D homeLocCollider;
     private CircleCollider2D sleepCollider;
-    private CircleCollider2D showerCollider;
+    //private CircleCollider2D showerCollider;
     private bool sleepTouched;
-    private bool showerTouched;
+    //private bool showerTouched;
 
     private bool homeLocTouched;
     
@@ -26,10 +26,10 @@ public class HomeLocation : MonoBehaviour, LocationSubject
     {
         this.homeLocCollider = this.GetComponent<CircleCollider2D>();
         this.sleepCollider = this.sleep.GetComponent<CircleCollider2D>();
-        this.showerCollider = this.shower.GetComponent<CircleCollider2D>();
+        //this.showerCollider = this.shower.GetComponent<CircleCollider2D>();
 
         this.sleepTouched = false;
-        this.showerTouched = false;
+        //this.showerTouched = false;
         this.homeLocTouched = false;
 
         this.player = GameObject.Find("Player");
@@ -56,10 +56,10 @@ public class HomeLocation : MonoBehaviour, LocationSubject
                         this.sleepTouched = true;
                         Debug.Log("sleep icon touched");
                     }                
-                    else if(this.showerCollider == touchedCollider){
+                    /*else if(this.showerCollider == touchedCollider){
                         this.showerTouched = true;
                         Debug.Log("shower icon touched");
-                    }
+                    }*/
                 }
             }
 
@@ -73,18 +73,18 @@ public class HomeLocation : MonoBehaviour, LocationSubject
                         this.handleSleep();
                         this.sleepTouched = false;
                     }
-                    if(this.showerTouched){
+                    /*if(this.showerTouched){
                         this.handleShower();
                         this.showerTouched = false;
-                    }
+                    }*/
                 }
             }
         } 
     }
 
-    void handleShower(){
+    /*void handleShower(){
         this.notifyObservers("HOME SHOWER");
-    }
+    }*/
 
     void handleSleep(){
         this.notifyObservers("HOME SLEEP");

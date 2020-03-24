@@ -21,7 +21,7 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
         this.hygieneObj = GetComponent<Collider2D>();
         this.touchHygieneIcon = false;
         this.countText.text = this.hygieneProducts.Count + "x";
-        this.testInitial();    
+        //this.testInitial();    
     }
 
     // Update is called once per frame

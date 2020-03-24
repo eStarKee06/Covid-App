@@ -33,6 +33,8 @@ public class LocationManager : MonoBehaviour
         this.hospitalPanel.SetActive(false);
         this.activePanelIdx = 0;
         //this.locationPanels = {this.homePanel, this.groceryPanel, this.workPanel, this.hospitalPanel};
+
+        this.locationLabel.text = currentLocation;
         this.locationPanels[0] = this.homePanel;
         this.locationPanels[1] = this.groceryPanel;
         this.locationPanels[2] = this.workPanel;

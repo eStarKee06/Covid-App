@@ -170,9 +170,9 @@ TimeObserver, PlayerSubject, LocationObserver{
                     Debug.Log("sleep icon from home: " + this.sleep);
                     this.notifyObservers(locName);
                     break;
-            case "HOME SHOWER":
+            /*case "HOME SHOWER":
                     this.immuneSys = ((this.immuneSys + 0.25) > 1.0) ? 1.25 : (this.immuneSys + 0.25);
-                    break;
+                    break;*/
         }
 
         Debug.Log("new money: " + this.money);

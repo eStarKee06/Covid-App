@@ -24,7 +24,7 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
         
         this.countText.text = this.foodProducts.Count + "x";
         //-----------------------
-        this.testInitial();
+        //this.testInitial();
     }
 
     // Update is called once per frame

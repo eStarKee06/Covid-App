@@ -22,6 +22,7 @@ public class LocationPanel : MonoBehaviour
         if(lidAnimation != null){
             bool isOpen = lidAnimation.GetBool("openPanel");
             lidAnimation.SetBool("openPanel", !isOpen);
+            Debug.Log("button clicked");
         }
     }
 }

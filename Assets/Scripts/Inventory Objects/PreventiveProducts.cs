@@ -7,57 +7,67 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
 {
     List<Preventive> preventiveProducts = new List<Preventive>();
     GameObject player;
-
-    
+    PlayerStatus playerStats;
+    Collider2D preventiveCollider;
+    bool touchedCol;
     public TMPro.TextMeshProUGUI countText; //implement later
     
     void Start()
     {
         this.player = GameObject.Find("Player");
+        this.playerStats = this.player.GetComponent<PlayerStatus>();
+        this.preventiveCollider = this.GetComponent<Collider2D>();
+        this.touchedCol = false;
+        this.countText.text = this.preventiveProducts.Count + "x";
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        this.touchCheck();
     }
 
     void addPreventiveProduct(){
         this.preventiveProducts.Add(new Preventive());
+        
+        this.countText.text = this.preventiveProducts.Count + "x";
     }
 
     void usePreventiveProduct(){
         //check later if empty
         //double returnedVal = this.preventiveProducts[this.preventiveProducts.Count - 1].;
         this.preventiveProducts.RemoveAt(this.preventiveProducts.Count - 1);
+    
+        this.countText.text = this.preventiveProducts.Count + "x";
     }
 
     public void notifyObservers(){
-        /*double currHungerLvl = this.playerStats.getHunger();
-        double decHungerBy = this.useFoodProduct();
-        double newHungerLvl = ((currHungerLvl + decHungerBy) >= 1) ? 1.0 : (currHungerLvl + decHungerBy);
-        (this.playerStats).update("HUNGER", newHungerLvl);*/
+        this.usePreventiveProduct();
+        double newImmuneSys = ((this.playerStats.getImmuneSys() + 0.25) > 1.0) ? 1.25 : (this.playerStats.getImmuneSys() + 0.25);
+        (this.playerStats).update("IMMUNE_SYS", newImmuneSys);
     }
 
     void touchCheck(){
-        /*bool touchFoodIcon = false;
+        bool touchFoodIcon = false;
 
         if(Input.touchCount > 0){
             Touch touch = Input.GetTouch(0); 
             Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position); 
             if(touch.phase == TouchPhase.Began){ 
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
-                if(this.foodObj == touchedCollider){
-                    touchFoodIcon = true;
+                if(this.preventiveCollider == touchedCollider){
+                    this.touchedCol = true;
                     Debug.Log("food icon touched");
                 }
             }
 
             if(touch.phase == TouchPhase.Ended){
-                this.notifyObservers();
-                touchFoodIcon = false;
+                if(this.touchedCol){
+                    this.notifyObservers();
+                    this.touchedCol = false;
+                }
             }
-        }*/
+        }
     }
 
     //------------------TESTS--------------------------------
