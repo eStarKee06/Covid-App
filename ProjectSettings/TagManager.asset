@@ -56,3 +56,6 @@ TagManager:
   - name: test
     uniqueID: 1190442371
     locked: 0
+  - name: foreground3
+    uniqueID: 1380682975
+    locked: 0

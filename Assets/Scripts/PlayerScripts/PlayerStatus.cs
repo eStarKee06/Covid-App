@@ -11,10 +11,11 @@ TimeObserver, PlayerSubject, LocationObserver{
     public GameObject FoodIcon;
     public GameObject HygieneIcon;
     public GameObject PreventiveIcon;
+    public GameObject healthReportIcon;
     private FoodProducts foodManager;
     private HygieneProducts hygieneManager;
     private PreventiveProducts preventiveManager;
-    
+    private healthReports healthReportManager;
     
     //health
     private double health;
@@ -43,6 +44,10 @@ TimeObserver, PlayerSubject, LocationObserver{
 
     public TMPro.TextMeshProUGUI moneyText;
     // Start is called before the first frame update
+
+        
+ 
+    
     void Start()
     { //logic to load game later
         this.infected = false;
@@ -56,7 +61,7 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.foodManager = this.FoodIcon.GetComponent<FoodProducts>();
         this.hygieneManager = this.HygieneIcon.GetComponent<HygieneProducts>();
         this.preventiveManager = this.PreventiveIcon.GetComponent<PreventiveProducts>();
-
+        this.healthReportManager = healthReportIcon.GetComponent<healthReports>();
     }
 
     // Update is called once per frame
@@ -94,6 +99,7 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.foodManager.updateFromPlayer(tag);
         this.hygieneManager.updateFromPlayer(tag);
         this.preventiveManager.updateFromPlayer(tag);
+        this.healthReportManager.updateFromPlayer(tag);
     }
 
     public void watchHealth(){
@@ -147,6 +153,7 @@ TimeObserver, PlayerSubject, LocationObserver{
                     break;
             case "HOSPITAL CHECK UP": 
                     //activate visuals for a day later
+                    this.notifyObservers(locName);
                     this.money = this.money - 500;
                     break;
             case "GROCERY BUY FOOD":
@@ -196,5 +203,11 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.hungerText.text = "Fullness " + this.hunger * 100 + "%";
         this.immuneSysText.text = "Immune " + this.immuneSys * 100 + "%"; 
         this.sleepText.text = "Rest " + this.sleep * 100 + "%";
+    }
+
+    public string getHealthReport(){
+        return (" Health " + this.health * 100 + "% \n Hunger " 
+                + this.hunger * 100 + "% \n Immunity " + this.immuneSys * 100 
+                + "% \n Rest " + this.sleep * 100 + "%");
     }
 }

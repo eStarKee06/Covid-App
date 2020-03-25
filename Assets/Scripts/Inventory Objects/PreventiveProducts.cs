@@ -48,8 +48,6 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
     }
 
     void touchCheck(){
-        bool touchFoodIcon = false;
-
         if(Input.touchCount > 0){
             Touch touch = Input.GetTouch(0); 
             Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position); 

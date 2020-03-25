@@ -68,6 +68,7 @@
      <Compile Include="Assets\Scripts\Inventory Objects\HygieneProducts.cs" />
      <Compile Include="Assets\Scripts\Inventory Objects\Preventive.cs" />
      <Compile Include="Assets\Scripts\Inventory Objects\PreventiveProducts.cs" />
+     <Compile Include="Assets\Scripts\Inventory Objects\healthReports.cs" />
      <Compile Include="Assets\Scripts\Locations\GroceryLocation.cs" />
      <Compile Include="Assets\Scripts\Locations\HomeLocation.cs" />
      <Compile Include="Assets\Scripts\Locations\HospitalLocation.cs" />
