@@ -54,7 +54,7 @@ public class HomeLocation : MonoBehaviour, LocationSubject
                 if(this.locManager.getCurrLocation() == "HOME"){
                     if(this.sleepCollider == touchedCollider){
                         this.sleepTouched = true;
-                        Debug.Log("sleep icon touched");
+                       // Debug.Log("sleep icon touched");
                     }                
                     /*else if(this.showerCollider == touchedCollider){
                         this.showerTouched = true;

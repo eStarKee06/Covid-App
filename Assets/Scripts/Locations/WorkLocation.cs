@@ -34,7 +34,7 @@ public class WorkLocation : MonoBehaviour, LocationSubject
                 if(this.workCollider == touchedCollider){
                     this.goToWork = true;
                     this.locManager.switchLocation(2);
-                    Debug.Log("work icon touched");
+                    //Debug.Log("work icon touched");
                 }
             }
 

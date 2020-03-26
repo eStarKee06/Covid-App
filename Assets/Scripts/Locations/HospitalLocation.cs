@@ -51,11 +51,11 @@ public class HospitalLocation : MonoBehaviour, LocationSubject
                 if(this.locManager.getCurrLocation() == "HOSPITAL"){
                     if(this.checkInCollider == touchedCollider){
                         this.checkInTouched = true;
-                        Debug.Log("check in icon touched");
+                       // Debug.Log("check in icon touched");
                     }                
                     else if(this.checkUpCollider == touchedCollider){
                         this.checkUpTouched = true;
-                        Debug.Log("check up icon touched");
+                       // Debug.Log("check up icon touched");
                     }
                 }
             }

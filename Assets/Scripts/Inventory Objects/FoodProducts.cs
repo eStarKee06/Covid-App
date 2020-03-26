@@ -53,11 +53,11 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
         double currHungerLvl = this.playerStats.getHunger();
         double decHungerBy = this.useFoodProduct();
         
-        Debug.Log("current hunger " + currHungerLvl);
-        Debug.Log("dec hunger " + decHungerBy);
+        //Debug.Log("current hunger " + currHungerLvl);
+        //Debug.Log("dec hunger " + decHungerBy);
         double newHungerLvl = ((currHungerLvl + decHungerBy) > 1.0) ? 1.25 : (currHungerLvl + decHungerBy);
         (this.playerStats).update("HUNGER", newHungerLvl);
-        Debug.Log("Food notify end");
+        //Debug.Log("Food notify end");
     }
 
     void touchCheck(){
@@ -69,7 +69,7 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
                 if(this.foodObj == touchedCollider){
                     this.touchFoodIcon = true;
-                    Debug.Log("food icon touched");
+                    //Debug.Log("food icon touched");
                 }
             }
 
@@ -96,6 +96,6 @@ public class FoodProducts : MonoBehaviour, InventorySubject, PlayerObserver
                     this.addFoodProduct();
                     break;
         }
-        Debug.Log("food count " + this.foodProducts.Count);
+        //Debug.Log("food count " + this.foodProducts.Count);
     }
 }

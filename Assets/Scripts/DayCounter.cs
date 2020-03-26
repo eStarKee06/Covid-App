@@ -32,7 +32,7 @@ public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
     void Update()
     {
         this.updateTime();
-        if(this.timerInDayText.text == "0:10"){
+        if(this.timerInDayText.text == "1:00"){
             /*this.notifyObservers();
             this.updateDateCounter(1);
             this.resetInitTime();*/

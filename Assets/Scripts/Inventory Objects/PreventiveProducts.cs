@@ -43,8 +43,9 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
 
     public void notifyObservers(){
         this.usePreventiveProduct();
-        double newImmuneSys = ((this.playerStats.getImmuneSys() + 0.25) > 1.0) ? 1.25 : (this.playerStats.getImmuneSys() + 0.25);
-        (this.playerStats).update("IMMUNE_SYS", newImmuneSys);
+        /*double newImmuneSys = ((this.playerStats.getImmuneSys() + 0.25) > 1.0) ? 1.25 : (this.playerStats.getImmuneSys() + 0.25);
+        (this.playerStats).update("IMMUNE_SYS", newImmuneSys);*/
+        (this.playerStats).update("WEAR_MASK", 0);
     }
 
     void touchCheck(){
@@ -55,7 +56,7 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
                 if(this.preventiveCollider == touchedCollider){
                     this.touchedCol = true;
-                    Debug.Log("food icon touched");
+                   // Debug.Log("food icon touched");
                 }
             }
 
@@ -82,6 +83,6 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
                     this.addPreventiveProduct();
                     break;
         }
-        Debug.Log(this.preventiveProducts.Count);
+       // Debug.Log(this.preventiveProducts.Count);
     }
 }

@@ -44,12 +44,12 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
     }
 
     public void notifyObservers(){
-        Debug.Log("hygiene notify");
+        //Debug.Log("hygiene notify");
         double currImmuneLvl = this.playerStats.getImmuneSys();
         double incImmuneBy = this.useHygieneProduct();
         double newImmuneLvl = ((currImmuneLvl + incImmuneBy) > 1) ? 1.25 : (currImmuneLvl + incImmuneBy);
         (this.playerStats).update("IMMUNE_SYS", newImmuneLvl);
-        Debug.Log("hygiene notify end");
+        //Debug.Log("hygiene notify end");
     }
 
     void touchCheck(){
@@ -61,7 +61,7 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPos);
                 if(this.hygieneObj == touchedCollider){
                     this.touchHygieneIcon = true;
-                    Debug.Log("hygiene icon touched");
+                   // Debug.Log("hygiene icon touched");
                 }
             }
 
@@ -89,6 +89,6 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
                     break;
         }
         
-        Debug.Log("soap count " + this.hygieneProducts.Count);
+        //Debug.Log("soap count " + this.hygieneProducts.Count);
     }
 }

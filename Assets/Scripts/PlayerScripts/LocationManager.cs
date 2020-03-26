@@ -71,7 +71,7 @@ public class LocationManager : MonoBehaviour
 
 
         this.checkForVirusEncounter();
-        Debug.Log("switched location: " + this.currentLocation);
+       // Debug.Log("switched location: " + this.currentLocation);
     }
 
     public string getCurrLocation(){

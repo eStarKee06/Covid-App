@@ -58,15 +58,15 @@ public class GroceryLocation : MonoBehaviour, LocationSubject
                 if(this.locManager.getCurrLocation() == "GROCERY"){
                     if(this.foodChoiceCol == touchedCollider){
                         this.foodChoiceTouched = true;
-                        Debug.Log("buy food icon touched");
+                       // Debug.Log("buy food icon touched");
                     }                
                     else if(this.soapChoiceCol == touchedCollider){
                         this.soapChoiceTouched = true;
-                        Debug.Log("buy food icon touched");
+                      //  Debug.Log("buy food icon touched");
                     }              
                     else if(this.maskChoiceCol == touchedCollider){
                         this.maskChoiceTouched = true;
-                        Debug.Log("buy mask icon touched");
+                       // Debug.Log("buy mask icon touched");
                     }
                 }
             }
