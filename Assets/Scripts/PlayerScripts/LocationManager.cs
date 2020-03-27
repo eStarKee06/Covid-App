@@ -39,6 +39,7 @@ public class LocationManager : MonoBehaviour
         this.locationPanels[1] = this.groceryPanel;
         this.locationPanels[2] = this.workPanel;
         this.locationPanels[3] = this.hospitalPanel;
+        
     }
 
     // Update is called once per frame

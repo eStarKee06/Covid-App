@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\DayCounter.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Interfaces\InventoryObserver.cs" />
      <Compile Include="Assets\Scripts\Interfaces\InventorySubject.cs" />
      <Compile Include="Assets\Scripts\Interfaces\LocationObserver.cs" />

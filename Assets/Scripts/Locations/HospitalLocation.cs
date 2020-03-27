@@ -7,9 +7,9 @@ public class HospitalLocation : MonoBehaviour, LocationSubject
     public GameObject checkInChoice;
     public GameObject checkUpChoice;
     
-    private CircleCollider2D checkInCollider;
-    private CircleCollider2D checkUpCollider;
-    private CircleCollider2D hospitalLocCol;
+    private Collider2D checkInCollider;
+    private Collider2D checkUpCollider;
+    private Collider2D hospitalLocCol;
     private bool checkInTouched;
     private bool checkUpTouched;
     private bool hospitalLocTouched;
@@ -20,9 +20,9 @@ public class HospitalLocation : MonoBehaviour, LocationSubject
     // Start is called before the first frame update
     void Start()
     {
-        this.checkInCollider = this.checkInChoice.GetComponent<CircleCollider2D>();
-        this.checkUpCollider = this.checkUpChoice.GetComponent<CircleCollider2D>();
-        this.hospitalLocCol = this.GetComponent<CircleCollider2D>();
+        this.checkInCollider = this.checkInChoice.GetComponent<Collider2D>();
+        this.checkUpCollider = this.checkUpChoice.GetComponent<Collider2D>();
+        this.hospitalLocCol = this.GetComponent<Collider2D>();
 
         this.checkInTouched = false;
         this.checkUpTouched = false;

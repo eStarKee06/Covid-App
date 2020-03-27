@@ -8,7 +8,7 @@ public class HomeLocation : MonoBehaviour, LocationSubject
     //public GameObject shower;
     
     private CircleCollider2D homeLocCollider;
-    private CircleCollider2D sleepCollider;
+    private BoxCollider2D sleepCollider;
     //private CircleCollider2D showerCollider;
     private bool sleepTouched;
     //private bool showerTouched;
@@ -25,7 +25,7 @@ public class HomeLocation : MonoBehaviour, LocationSubject
     void Start()
     {
         this.homeLocCollider = this.GetComponent<CircleCollider2D>();
-        this.sleepCollider = this.sleep.GetComponent<CircleCollider2D>();
+        this.sleepCollider = this.sleep.GetComponent<BoxCollider2D>();
         //this.showerCollider = this.shower.GetComponent<CircleCollider2D>();
 
         this.sleepTouched = false;

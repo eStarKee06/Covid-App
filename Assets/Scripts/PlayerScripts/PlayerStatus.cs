@@ -43,6 +43,8 @@ TimeObserver, PlayerSubject, LocationObserver{
     public Text sleepText;
     public Text immuneSysText;
 
+
+    int logLines; 
     DayCounter dayCounter;
 
     double getVirusChance;
@@ -52,10 +54,20 @@ TimeObserver, PlayerSubject, LocationObserver{
 
     public TMPro.TextMeshProUGUI moneyText;
     public TMPro.TextMeshProUGUI logText;
+
+    GameManager gameManager;
     // Start is called before the first frame update
 
         
- 
+    public GameObject infectedDeathModal;
+    public Button infected_resetGame; 
+    
+    public GameObject winModal;
+    public Button win_resetGame;
+
+    public GameObject healthDeathModal;
+    public TMPro.TextMeshProUGUI healthDeathText;
+    public Button death_resetGame;  
     
     void Start()
     { //logic to load game later
@@ -77,6 +89,12 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.infectionDayCount = 0;
         //this.logText = this.gameLog.GetComponent<TMPro.TextMeshProUGUI>();
         this.logText.text="";
+        this.logLines = 0;
+
+        this.gameManager = GameObject.FindObjectOfType<GameManager>();
+        infectedDeathModal.gameObject.SetActive(false);
+        winModal.gameObject.SetActive(false);
+        healthDeathModal.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -85,11 +103,11 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.updateTestText();
         this.watchHealth();
         this.updateMoneyText();
-        this.logTextHints();
+        //this.logTextHints();
+
     }
 
     void updatePlayerHealth(double newHunger, double newSleep, double newImmuneSys){
-        this.logText.text += "HELLO";
         this.hunger = (newHunger) > 1.0 ? 1.25 :
                                 (newHunger) < 0 ? 0 : newHunger;
         this.sleep = (newSleep) > 1.0 ? 1.25 :
@@ -114,8 +132,25 @@ TimeObserver, PlayerSubject, LocationObserver{
             }
         }
 
+        if(this.sleep <= 0){
+            healthDeathModal.gameObject.SetActive(true);
+            healthDeathText.text = "Death caused by lack of sleep";
+            death_resetGame.onClick.AddListener(reset);
+        }
+        if(this.hunger <= 0){
+            healthDeathModal.gameObject.SetActive(true);
+            healthDeathText.text = "Death caused by starvation";
+            death_resetGame.onClick.AddListener(reset);
+        }
+        if(this.immuneSys <= 0){
+            healthDeathModal.gameObject.SetActive(true);
+            healthDeathText.text = "Death caused by bacterial infection due to unsanitary conditions";
+            death_resetGame.onClick.AddListener(this.reset);
+        }
         if(this.health <= 0){
-            //TODO
+            healthDeathModal.gameObject.SetActive(true);
+            healthDeathText.text = "player health reaches 0";
+            death_resetGame.onClick.AddListener(this.reset);
         }
 
     }
@@ -195,7 +230,7 @@ TimeObserver, PlayerSubject, LocationObserver{
         
         double sickTextPicker = (new System.Random()).Next(0,101);
 
-        double chanceOfTextShowing = 20;
+        double chanceOfTextShowing = 10;
         if(this.infected){
             chanceOfTextShowing = 70;
         }
@@ -205,7 +240,9 @@ TimeObserver, PlayerSubject, LocationObserver{
             Debug.Log("random idx: " + randomIdx);
             Debug.Log("sickTextPicker: " + sickTextPicker);
             Debug.Log("chance of showing: " + chanceOfTextShowing);
-            this.logText.text += "\n" + randomSickText[(int)randomIdx];
+            this.logText.text += randomSickText[(int)randomIdx];
+        }else{
+            this.logText.text += "feel great";
         }
 
     }
@@ -232,13 +269,34 @@ TimeObserver, PlayerSubject, LocationObserver{
         }
     }
 
+    void reset(){
+        this.gameManager.resetGame();
+    }
+
     public void updateDays(){
         if(this.infected && this.infectionDayCount == 7){
-            //TODO YOU LOST
+            infectedDeathModal.gameObject.SetActive(true);
+            this.infected_resetGame.onClick.AddListener(reset);
         }
         if(this.infected){
             this.infectionDayCount++;
         }
+        if(this.dayCounter.getDay() == 100){
+            this.winModal.gameObject.SetActive(true);
+            this.win_resetGame.onClick.AddListener(reset);
+        }
+        
+        if(this.logLines < 25){
+            this.logText.text+= "\n";
+            this.logTextHints();
+            this.logLines++;
+        }else{
+            
+            this.logText.text = "";
+            this.logTextHints();
+            this.logLines = 0;
+        }
+
         this.wearingMask = false;
         
         this.updatePlayerHealth(this.hunger - 0.25, this.sleep - 0.25, this.immuneSys - 0.25);
@@ -286,11 +344,13 @@ TimeObserver, PlayerSubject, LocationObserver{
                     break;
             case "WORK OUTSIDE":
                     //time offset later implement
+                    double newSleep = (this.sleep - 0.20);
+                    this.updatePlayerHealth(this.hunger, newSleep, this.immuneSys);
                     this.money = this.money + 200;
                     break;
             case "HOME SLEEP":
-                    double newSleep = ((this.sleep + 0.50) > 1.0) ? 1.25 : (this.sleep + 0.50);
-                    this.updatePlayerHealth(this.hunger, newSleep, this.immuneSys);
+                    double newSleep2 = ((this.sleep + 0.50) > 1.0) ? 1.25 : (this.sleep + 0.50);
+                    this.updatePlayerHealth(this.hunger, newSleep2, this.immuneSys);
                     //Debug.Log("sleep icon from home: " + this.sleep);
                     this.notifyObservers(locName);
                     break;
