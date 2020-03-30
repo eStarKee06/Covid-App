@@ -24,7 +24,7 @@ public class PreventiveProducts : MonoBehaviour, PlayerObserver
     // Update is called once per frame
     void Update()
     {
-        this.touchCheck();
+            this.touchCheck();
     }
 
     void addPreventiveProduct(){

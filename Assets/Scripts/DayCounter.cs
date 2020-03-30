@@ -18,6 +18,7 @@ public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
     GameObject player;
     PlayerStatus playerStats;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,18 +27,19 @@ public class DayCounter : MonoBehaviour, TimeSubject, PlayerObserver
         
         this.player = GameObject.Find("Player");
         this.playerStats = this.player.GetComponent<PlayerStatus>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.updateTime();
-        if(this.timerInDayText.text == "1:00"){
-            /*this.notifyObservers();
-            this.updateDateCounter(1);
-            this.resetInitTime();*/
-            this.eventHandler(1, true);
-        }
+            this.updateTime();
+            if(this.timerInDayText.text == "1:00"){
+                /*this.notifyObservers();
+                this.updateDateCounter(1);
+                this.resetInitTime();*/
+                this.eventHandler(1, true);
+            }
     }
 
     void resetInitTime(){

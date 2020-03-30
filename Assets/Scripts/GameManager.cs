@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     public GameObject instructionsBG;
     public Button closeIns;
     public Button openIns;
-    void Start(){
+
+    /*void Start(){
         this.instructionsBG.gameObject.SetActive(true);
         this.closeIns.onClick.AddListener(closeInstructions);
         this.openIns.onClick.AddListener(openInstructions);
@@ -19,11 +20,10 @@ public class GameManager : MonoBehaviour
     }    
     void openInstructions(){
         this.instructionsBG.gameObject.SetActive(true);
-    }
+    }*/
 
     public void resetGame(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
     }
 
 }

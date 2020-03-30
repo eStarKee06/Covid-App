@@ -16,6 +16,9 @@ public class healthReports : MonoBehaviour, PlayerObserver
 
     PlayerStatus playerStats;
     Collider2D reportCollider;
+
+    SpriteEnabler spriteEnabler;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +29,16 @@ public class healthReports : MonoBehaviour, PlayerObserver
         this.reportCollider = this.GetComponent<Collider2D>();
 
         this.countText.text = this.count + "x";
-        mainPanel.SetActive(false);
+        mainPanel.gameObject.SetActive(false);
+        
+        //this.spriteEnabler = GameObject.FindObjectOfType<SpriteEnabler>();
+        //this.spriteEnabler.disableSprites();
+        this.spriteEnabler = GameObject.Find("SpriteEnabler").GetComponent<SpriteEnabler>();
+        this.spriteEnabler.initialize();
     }
 
     void Update(){
-        touchCheck();
+            touchCheck();
     }
 
     void addHealthReport(){
@@ -76,19 +84,26 @@ public class healthReports : MonoBehaviour, PlayerObserver
     }
 
     void openReportFunction(){
+            //this.spriteEnabler.disableSprites();
+            this.spriteEnabler.disableSprites();
             if(this.canUseReport()){
                 this.openReport = true;
                 useHealthReport();
                 this.healthReportText.text = this.playerStats.getHealthReport();
 
-                this.mainPanel.SetActive(true);
-                this.healthReportCloseButton.onClick.AddListener(TaskOnClick);
+                this.mainPanel.gameObject.SetActive(true);
+                this.healthReportCloseButton.onClick.AddListener(closeReport);
             }
     }
 
-    void TaskOnClick(){
+    void closeReport(){
         this.openReport = false;
-        this.mainPanel.SetActive(false);
+        this.mainPanel.gameObject.SetActive(false);
+        
+            this.spriteEnabler.enableSprites();
+        //this.spriteEnabler.disableSprites();
+        
+        //this.spriteEnabler.enableSprites();
     }
 
     public void updateFromPlayer(string tag){

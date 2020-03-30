@@ -14,7 +14,7 @@ TimeObserver, PlayerSubject, LocationObserver{
     public GameObject healthReportIcon;
     public GameObject playerHealth;
 
-    double playerHealthHeight;
+    //double playerHealthHeight;
 
 
     private FoodProducts foodManager;
@@ -68,7 +68,18 @@ TimeObserver, PlayerSubject, LocationObserver{
     public GameObject healthDeathModal;
     public TMPro.TextMeshProUGUI healthDeathText;
     public Button death_resetGame;  
-    
+
+    public GameObject instructionsBG;
+    public Button closeIns;
+    public Button openIns;
+
+
+    double topYPosHealthBar;
+    public double bottomYPosHealthBar;
+    double healthHeight;
+
+    SpriteEnabler spriteEnabler;
+
     void Start()
     { //logic to load game later
         this.infected = false;
@@ -84,17 +95,32 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.preventiveManager = this.PreventiveIcon.GetComponent<PreventiveProducts>();
         this.healthReportManager = healthReportIcon.GetComponent<healthReports>();
 
-        this.playerHealthHeight = this.playerHealth.GetComponent<SpriteRenderer>().sprite.rect.height;
+        //this.playerHealthHeight = this.playerHealth.GetComponent<SpriteRenderer>().sprite.rect.height;
+        this.topYPosHealthBar = this.playerHealth.GetComponent<Transform>().position.y;
+        Debug.Log(this.topYPosHealthBar);
+        this.healthHeight = topYPosHealthBar - this.bottomYPosHealthBar;
+        
         this.wearingMask = false;
         this.infectionDayCount = 0;
         //this.logText = this.gameLog.GetComponent<TMPro.TextMeshProUGUI>();
         this.logText.text="";
         this.logLines = 0;
 
+
         this.gameManager = GameObject.FindObjectOfType<GameManager>();
         infectedDeathModal.gameObject.SetActive(false);
         winModal.gameObject.SetActive(false);
         healthDeathModal.gameObject.SetActive(false);
+
+        this.spriteEnabler = GameObject.Find("SpriteEnabler").GetComponent<SpriteEnabler>();
+        this.spriteEnabler.initialize();
+        this.spriteEnabler.disableSprites();
+
+        this.instructionsBG.gameObject.SetActive(true);
+        this.closeIns.interactable = true;
+        this.openIns.interactable = true;
+        this.closeIns.onClick.AddListener(closeInstructions);
+        this.openIns.onClick.AddListener(openInstructions);
     }
 
     // Update is called once per frame
@@ -105,6 +131,17 @@ TimeObserver, PlayerSubject, LocationObserver{
         this.updateMoneyText();
         //this.logTextHints();
 
+    }
+
+    void closeInstructions(){
+        this.instructionsBG.gameObject.SetActive(false);
+        this.spriteEnabler.enableSprites();
+        Debug.Log("close instructions");
+    }    
+    void openInstructions(){
+        this.spriteEnabler.disableSprites();
+        this.instructionsBG.gameObject.SetActive(true);
+        Debug.Log("open instructions");        
     }
 
     void updatePlayerHealth(double newHunger, double newSleep, double newImmuneSys){
@@ -119,17 +156,20 @@ TimeObserver, PlayerSubject, LocationObserver{
                     + (this.sleep * SLEEP_CONTRIBUTION)
                     + (this.immuneSys * IMMUNE_SYS_CONTRIBUTION));
 
-        newHealth =  (newHealth > 0.99) ? 1.0 : newHealth;
+        newHealth =  (newHealth >= 0.99) ? 1.0 : newHealth;
         if(newHealth != this.health){
             if(newHealth > this.health){
+                Debug.Log("new health " + newHealth);
+                Debug.Log("health " + this.health);
                 this.resizeHealth(true, newHealth);
                 this.health = newHealth;
             }
             else{
                 this.resizeHealth(false, newHealth);
-                
                 this.health = newHealth;
             }
+            //this.resizeHealth(true, newHealth);
+            //this.health = newHealth;   
         }
 
         if(this.sleep <= 0){
@@ -157,6 +197,7 @@ TimeObserver, PlayerSubject, LocationObserver{
 
 
     void initialStates(){ //startup Test
+        this.health = 1.0;
         this.updatePlayerHealth(1.0, 1.0, 1.0);
         this.money = 8000.00;
     }
@@ -176,9 +217,9 @@ TimeObserver, PlayerSubject, LocationObserver{
     }
 
     void resizeHealth(bool positiveChange, double newHealth){
-        if(positiveChange){
+        /*if(positiveChange){
             //double yOffset = this.playerHealthHeight - (this.playerHealthHeight * this.health);
-            double yOffset = (this.playerHealthHeight * newHealth) - (this.playerHealthHeight * this.health);
+            double yOffset = (this.healthHeight * newHealth) - (healthHeight * this.health);
             double yOffsetRatio = yOffset/this.playerHealthHeight;
             Vector3 position = this.playerHealth.GetComponent<Transform>().position;
             position.y = position.y + ((float)position.y * (float)yOffsetRatio);   
@@ -188,15 +229,29 @@ TimeObserver, PlayerSubject, LocationObserver{
         }
         else{
              //double yOffset = this.playerHealthHeight - (this.playerHealthHeight * this.health);
-             double yOffset = (this.playerHealthHeight * this.health) -(this.playerHealthHeight * newHealth);
-             double yOffsetRatio = yOffset/this.playerHealthHeight;
+             double yOffset = (this.healthHeight * this.health) -(this.healthHeight * newHealth);
+             double yOffsetRatio = yOffset/this.healthHeight;
              Vector3 position = this.playerHealth.GetComponent<Transform>().position;
             position.y = position.y - ((float)position.y * (float)yOffsetRatio);
             
             Debug.Log("negative" + yOffsetRatio);
         this.playerHealth.GetComponent<Transform>().position = position;
-        }
-    
+        }*/
+        //this.health.GetComponent<Transform>.position.y = 
+        //if(!positiveChange){
+            Vector3 currPosVec = this.playerHealth.GetComponent<Transform>().position;
+            float newYPos = (float) (this.topYPosHealthBar - (this.healthHeight * (1.0 - newHealth)));
+            this.playerHealth.GetComponent<Transform>().position = new Vector3(currPosVec.x, newYPos, currPosVec.z);
+                        Debug.Log(this.topYPosHealthBar);
+      /*  }
+        else{
+            Vector3 currPosVec = this.playerHealth.GetComponent<Transform>().position;
+            float newYPos = (float) (this.bottomYPosHealthBar + (this.healthHeight * newHealth));
+            this.playerHealth.GetComponent<Transform>().position = new Vector3(currPosVec.x, newYPos, currPosVec.z);
+            
+            Debug.Log(this.topYPosHealthBar);
+        }*/
+        
     }
 
     public void watchHealth(){
@@ -388,7 +443,7 @@ TimeObserver, PlayerSubject, LocationObserver{
         double localImmuneSys = (this.immuneSys > 1.0) ? 1.0 : this.immuneSys;
         double localSleep = (this.sleep > 1.0) ? 1.0 : this.sleep;
         string returnedString = (" Health " + localHealth * 100 + "% \n Hunger " 
-                + localHunger * 100 + "% \n Immunity " + localImmuneSys * 100 
+                + (1.0 - localHunger) * 100 + "% \n Hygiene " + localImmuneSys * 100 
                 + "% \n Rest " + localSleep * 100 + "%");
         if(this.infected){
             returnedString = returnedString + "\n You tested positive for the C91 Virus \n"+

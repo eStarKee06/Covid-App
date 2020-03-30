@@ -27,7 +27,8 @@ public class HygieneProducts : MonoBehaviour, InventorySubject, PlayerObserver
     // Update is called once per frame
     void Update()
     {
-        touchCheck();
+       
+            touchCheck();
     }
 
     void addHygieneProduct(){
